@@ -1,59 +1,54 @@
 #include "CommandManager.h"
+#include "../../commands/LoadStructureCommand.h"
+#include "../../commands/RemoveStructureCommand.h"
+#include <ll/api/command/CommandHandle.h>
 #include <ll/api/command/CommandRegistrar.h>
 #include <ll/api/service/Bedrock.h>
 
 namespace structure_loader::manager {
 
 bool CommandManager::registerCommands() {
-    // optional_ref<CommandRegistry> commandRegistry = ll::service::getCommandRegistry();
-    // if (!commandRegistry) {
-    //     return false;
-    // }
+    optional_ref<CommandRegistry> commandRegistry = ll::service::getCommandRegistry();
+    if (!commandRegistry) {
+        return false;
+    }
 
-    // std::vector<std::string> rankNames = {};
-    // for (std::pair<std::string, object::Rank*> pair : RanksManager::getRanks()) {
-    //     rankNames.push_back(pair.first);
-    // }
-    // ll::command::CommandRegistrar::getInstance().tryRegisterSoftEnum(std::string{structureEnumNames}, rankNames);
+    ll::command::CommandRegistrar::getInstance().tryRegisterSoftEnum(std::string{structureEnumNames}, {});
 
-    // ll::command::CommandHandle& addRankCommand = ll::command::CommandRegistrar::getInstance().getOrCreateCommand(
-    //     commands::AddRankCommand::getName(),
-    //     commands::AddRankCommand::getDescription(),
-    //     commands::AddRankCommand::getRequirement(),
-    //     commands::AddRankCommand::getFlag()
-    // );
+    ll::command::CommandHandle& loadStructureCommand = ll::command::CommandRegistrar::getInstance().getOrCreateCommand(
+        commands::LoadStructureCommand::getName(),
+        commands::LoadStructureCommand::getDescription(),
+        commands::LoadStructureCommand::getRequirement(),
+        commands::LoadStructureCommand::getFlag()
+    );
 
-    // for (const std::string& alias : commands::AddRankCommand::getAliases()) {
-    //     addRankCommand.alias(alias);
-    // }
+    for (const std::string& alias : commands::LoadStructureCommand::getAliases()) {
+        loadStructureCommand.alias(alias);
+    }
 
-    // addRankCommand.overload<commands::AddRankCommand::Parameter>()
-    //     .required("rankName")
-    //     .required("prefix")
-    //     .required("chatFormat")
-    //     .required("scoreTagFormat")
-    //     .optional("inheritanceRank")
-    //     .execute(&commands::AddRankCommand::execute);
+    loadStructureCommand.overload<commands::LoadStructureCommand::Parameter>()
+        .required("structureName")
+        .execute(&commands::LoadStructureCommand::execute);
 
-    // addRankCommand.overload().execute(&commands::AddRankCommand::executeWithoutParameter);
+    loadStructureCommand.overload().execute(&commands::LoadStructureCommand::executeWithoutParameter);
 
-    // ll::command::CommandHandle& setRankCommand = ll::command::CommandRegistrar::getInstance().getOrCreateCommand(
-    //     commands::SetRankCommand::getName(),
-    //     commands::SetRankCommand::getDescription(),
-    //     commands::SetRankCommand::getRequirement(),
-    //     commands::SetRankCommand::getFlag()
-    // );
+    ll::command::CommandHandle& removeStructureCommand =
+        ll::command::CommandRegistrar::getInstance().getOrCreateCommand(
+            commands::RemoveStructureCommand::getName(),
+            commands::RemoveStructureCommand::getDescription(),
+            commands::RemoveStructureCommand::getRequirement(),
+            commands::RemoveStructureCommand::getFlag()
+        );
 
-    // for (const std::string& alias : commands::SetRankCommand::getAliases()) {
-    //     setRankCommand.alias(alias);
-    // }
+    for (const std::string& alias : commands::RemoveStructureCommand::getAliases()) {
+        removeStructureCommand.alias(alias);
+    }
 
-    // setRankCommand.overload<commands::SetRankCommand::Parameter>()
-    //     .required("player")
-    //     .required("rankName")
-    //     .execute(&commands::SetRankCommand::execute);
+    removeStructureCommand.overload<commands::RemoveStructureCommand::Parameter>()
+        .required("structureName")
+        .execute(&commands::RemoveStructureCommand::execute);
 
-    // setRankCommand.overload().execute(&commands::SetRankCommand::executeWithoutParameter);
+    removeStructureCommand.overload().execute(&commands::RemoveStructureCommand::executeWithoutParameter);
     return true;
 }
 

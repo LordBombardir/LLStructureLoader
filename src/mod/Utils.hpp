@@ -1,4 +1,3 @@
-#include <algorithm>
 #include <stdexcept>
 #include <string>
 #include <vector>
@@ -7,13 +6,6 @@ namespace structure_loader {
 
 class Utils final {
 public:
-    static inline std::string fixPath(std::string path) {
-        std::transform(path.begin(), path.end(), path.begin(), [](unsigned char c) -> int {
-            return c == '\\' ? '/' : c;
-        });
-        return path;
-    }
-
     static std::string strReplace(
         const std::string& originalStr,
         const std::string& whatNeedToReplace,

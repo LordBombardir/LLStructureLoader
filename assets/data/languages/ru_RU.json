@@ -1,6 +1,14 @@
 {
     "languageName": "Русский (Россия)",
     "undefinedError": "§r(Структуры) К сожалению, произошла неизвестная ошибка..",
+    "structureAlreadyLoaded": "Структура «{structureName}» уже загружена на сервер!",
+    "badStructure": "Структура «{structureName}» повреждена! Ошибка: {errorMessage}",
     "commandLoadStructureDescription": "Загрузка структур в память",
-    "commandRemoveStructureDescription": "Удаление структур из памяти"
+    "commandRemoveStructureDescription": "Удаление структур из памяти",
+    "commandLoadStructureUsing": "§r(Структуры) Использование: /load-structure <structureName: string>",
+    "loadStructureError": "§r(Структуры) Не удалось загрузить структуру «{structureName}»! Возможно, либо структура уже существует, либо Вы указали неверное название (оно должно быть без расширения!), либо структура повреждена.",
+    "loadStructureSuccess": "§r(Структуры) Вы успешно загрузили структуру «{structureName}» в память.",
+    "commandRemoveStructureUsing": "§r(Структуры) Использование: /remove-structure <structureName: string>",
+    "removeStructureError": "§r(Структуры) Не удалось удалить структуру «{structureName}»! Возможно, структура не существует.",
+    "removeStructureSuccess": "§r(Структуры) Вы успешно удалили структуру «{structureName}» из памяти."
 }

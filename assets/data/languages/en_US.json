@@ -1,6 +1,14 @@
 {
     "languageName": "English (United Kingdom)",
-    "undefinedError": "§r(Structures) Sorry, an unknown error has occurred..",
-    "commandLoadStructureDescription": "Loading structures into memory",
-    "commandRemoveStructureDescription": "Removing structures from memory"
+    "undefinedError": "§r(Structures) Unfortunately, an unknown error has occurred.",
+    "structureAlreadyLoaded": "The structure \"{structureName}\" is already loaded on the server!",
+    "badStructure": "The structure \"{structureName}\" is corrupted! Error: {errorMessage}",
+    "commandLoadStructureDescription": "Load structures into memory",
+    "commandRemoveStructureDescription": "Remove structures from memory",
+    "commandLoadStructureUsing": "§r(Structures) Usage: /load-structure <structureName: string>",
+    "loadStructureError": "§r(Structures) Failed to load the structure \"{structureName}\"! It may already exist, the name might be incorrect (it should not include an extension!), or the structure might be corrupted.",
+    "loadStructureSuccess": "§r(Structures) You have successfully loaded the structure \"{structureName}\" into memory.",
+    "commandRemoveStructureUsing": "§r(Structures) Usage: /remove-structure <structureName: string>",
+    "removeStructureError": "§r(Structures) Failed to remove the structure \"{structureName}\"! It may not exist.",
+    "removeStructureSuccess": "§r(Structures) You have successfully removed the structure \"{structureName}\" from memory."
 }

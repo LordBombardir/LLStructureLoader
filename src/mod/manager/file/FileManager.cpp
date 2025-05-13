@@ -1,10 +1,12 @@
 #include "FileManager.h"
-#include <fstream>
+#include <ll/api/io/FileUtils.h>
 
 namespace structure_loader::manager {
 
 std::vector<std::filesystem::path>
 FileManager::getFilesInDirectory(const std::filesystem::path& path, const std::optional<std::string>& checkExtension) {
+    directoryEnsure(path);
+    
     std::vector<std::filesystem::path> files;
     for (const std::filesystem::directory_entry& entry : std::filesystem::directory_iterator(path)) {
         if (entry.is_regular_file()) {
@@ -12,38 +14,46 @@ FileManager::getFilesInDirectory(const std::filesystem::path& path, const std::o
                 continue;
             }
 
-            files.push_back(entry.path());
+            files.emplace_back(entry.path());
         }
     }
     return files;
 }
 
 std::string FileManager::getDataAsBytesFromFile(const std::filesystem::path& path) {
-    std::ifstream file(path, std::ios::in | std::ios::binary);
-    if (!file) {
-        throw std::runtime_error("Couldn't open the file: " + path.string());
+    std::optional<std::string> data = ll::file_utils::readFile(path, true);
+    if (!data.has_value()) {
+        throw std::runtime_error("Couldn't open the file: " + path.generic_string());
     }
 
-    file.seekg(0, std::ios::end);
-    std::streamsize size = file.tellg();
-    file.seekg(0, std::ios::beg);
-
-    std::string buffer(size, '\0');
-    file.read(buffer.data(), size);
-    return buffer;
+    return data.value();
 }
 
-void FileManager::renameFile(const std::filesystem::path& path, const std::filesystem::path& name) {
-    std::filesystem::rename(path, name);
+bool FileManager::isFileExists(const std::filesystem::path& path) {
+    return std::filesystem::exists(path) && std::filesystem::is_regular_file(path);
 }
 
-void FileManager::removeFile(const std::filesystem::path& path) { std::filesystem::remove(path); }
+void FileManager::renameFile(const std::filesystem::path& path, const std::filesystem::path& newPath) {
+    if (std::filesystem::exists(newPath)) {
+        throw std::runtime_error("The file already exists: " + newPath.generic_string());
+    }
+
+    std::filesystem::rename(path, newPath);
+}
+
+void FileManager::removeFile(const std::filesystem::path& path) {
+    if (!std::filesystem::exists(path)) {
+        throw std::runtime_error("The file does not exist: " + path.generic_string());
+    }
+
+    std::filesystem::remove(path);
+}
 
 void FileManager::directoryEnsure(const std::filesystem::path& path) {
     if (!std::filesystem::exists(path)) {
         std::filesystem::create_directories(path);
     } else if (!std::filesystem::is_directory(path)) {
-        throw std::runtime_error("The path exists, but it is not a directory: " + path.string());
+        throw std::runtime_error("The path exists, but it is not a directory: " + path.generic_string());
     }
 }
 

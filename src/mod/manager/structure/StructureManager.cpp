@@ -1,5 +1,4 @@
 #include "StructureManager.h"
-#include "../../Main.h"
 #include <format>
 #include <ll/api/service/Bedrock.h>
 #include <mc/world/level/Level.h>
@@ -11,6 +10,29 @@ constexpr std::string_view STRUCTURE_ID = "mystructure";
 
 namespace structure_loader::manager {
 
+std::vector<std::string> StructureManager::getLoadedStructures() {
+    optional_ref<Level> level = ll::service::getLevel();
+    if (!level) {
+        return {};
+    }
+
+    std::vector<std::string> loadedStructures = {};
+
+    level->getLevelStorage().forEachKeyWithPrefix(
+        "structuretemplate_",
+        DBHelpers::Category::WorldFeature,
+        [&loadedStructures](std::string_view key, [[maybe_unused]] std::string_view nbtData) -> void {
+            if (!key.starts_with(STRUCTURE_ID)) {
+                return;
+            }
+
+            loadedStructures.emplace_back(key.substr(STRUCTURE_ID.length() + 1));
+        }
+    );
+
+    return loadedStructures;
+}
+
 bool StructureManager::isStructureLoaded(const std::string& name) {
     optional_ref<Level> level = ll::service::getLevel();
     if (!level) {
@@ -21,23 +43,6 @@ bool StructureManager::isStructureLoaded(const std::string& name) {
         std::format("structuretemplate_{0}:{1}", STRUCTURE_ID, name),
         DBHelpers::Category::WorldFeature
     );
-}
-
-std::vector<std::string> StructureManager::getLoadedStructures() {
-    optional_ref<Level> level = ll::service::getLevel();
-    if (!level) {
-        return {};
-    }
-
-    level->getLevelStorage().forEachKeyWithPrefix(
-        "structuretemplate_",
-        DBHelpers::Category::WorldFeature,
-        [](std::string_view one, std::string_view two) -> void {
-            Main::getInstance().getSelf().getLogger().info("One: {}", one);
-            Main::getInstance().getSelf().getLogger().info("Two: {}", two);
-        }
-    );
-    return {};
 }
 
 void StructureManager::loadStructure(const std::string& name, const CompoundTag& nbt) {

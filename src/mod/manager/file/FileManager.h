@@ -16,8 +16,8 @@ public:
 
     static std::string getDataAsBytesFromFile(const std::filesystem::path& path);
 
-    static void renameFile(const std::filesystem::path& path, const std::filesystem::path& name);
-
+    static bool isFileExists(const std::filesystem::path& path);
+    static void renameFile(const std::filesystem::path& path, const std::filesystem::path& newPath);
     static void removeFile(const std::filesystem::path& path);
 
 private:

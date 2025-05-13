@@ -10,7 +10,7 @@ public:
     struct MainConfig {
         int         version                                = 1;
         std::string defaultLocaleCode                      = "en_US";
-        bool        logToConsoleIfStructureIsAlreadyLoaded = false;
+        bool        logToConsoleIfStructureIsAlreadyLoaded = true;
         bool        backupRemovedStructure                 = true;
     };
 

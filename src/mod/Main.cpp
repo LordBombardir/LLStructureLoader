@@ -2,7 +2,6 @@
 #include "manager/MainManager.h"
 #include "manager/command/CommandManager.h"
 #include "manager/lang/LanguageManager.h"
-#include "manager/structure/StructureManager.h"
 #include <ll/api/mod/RegisterHelper.h>
 
 namespace structure_loader {
@@ -32,12 +31,12 @@ bool Main::enable() {
         return false;
     }
 
+    manager::MainManager::loadStructures(getSelf());
+
     getSelf().getLogger().info(
         "The mod has been successfully enabled! Choosed language: "
         + manager::LanguageManager::getTranslate("languageName")
     );
-
-    manager::StructureManager::getLoadedStructures();
 
     getSelf().getLogger().info("Author: vk.com/lordbomba");
     return true;
@@ -47,13 +46,6 @@ bool Main::disable() {
     getSelf().getLogger().info("The mod is disabling...");
 
     getSelf().getLogger().info("The mod has been successfully disabled.");
-    return true;
-}
-
-bool Main::unload() {
-    getSelf().getLogger().info("The mod is unloading...");
-
-    getSelf().getLogger().info("The mod has been successfully unloaded.");
     return true;
 }
 
