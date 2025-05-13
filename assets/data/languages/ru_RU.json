@@ -1,0 +1,6 @@
+{
+    "languageName": "Русский (Россия)",
+    "undefinedError": "§r(Структуры) К сожалению, произошла неизвестная ошибка..",
+    "commandLoadStructureDescription": "Загрузка структур в память",
+    "commandRemoveStructureDescription": "Удаление структур из памяти"
+}

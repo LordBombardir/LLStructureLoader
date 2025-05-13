@@ -1,0 +1,6 @@
+{
+    "languageName": "English (United Kingdom)",
+    "undefinedError": "§r(Structures) Sorry, an unknown error has occurred..",
+    "commandLoadStructureDescription": "Loading structures into memory",
+    "commandRemoveStructureDescription": "Removing structures from memory"
+}

@@ -8,7 +8,7 @@ add_repositories("lordbombardir-repo https://github.com/LordBombardir/xmake-repo
 -- please note that you should add bdslibrary yourself if using dev version
 add_requires("levilamina d490642c0e5e2ceb0ee8f0a8c3665e73654cd752")
 add_requires("levibuildscript")
-add_requires("translatorapi 1.1.2")
+add_requires("translatorapi 1.1.1")
 
 if not has_config("vs_runtime") then
     set_runtimes("MD")
@@ -18,7 +18,7 @@ target("StructureLoader") -- Change this to your mod name.
     add_rules("@levibuildscript/linkrule")
     add_rules("@levibuildscript/modpacker")
 
-    add_cxflags( "/EHa", "/utf-8", "/W4", "/w44265", "/w44289", "/w44296", "/w45263", "/w44738", "/w45204")
+    add_cxflags("/EHa", "/utf-8", "/W4", "/w44265", "/w44289", "/w44296", "/w45263", "/w44738", "/w45204")
     add_defines("NOMINMAX", "UNICODE", "_HAS_CXX23=1")
 
     add_packages("levilamina")
@@ -32,3 +32,9 @@ target("StructureLoader") -- Change this to your mod name.
     add_headerfiles("src/**.h")
     add_files("src/**.cpp")
     add_includedirs("src")
+
+    after_build(function (target)
+        local binDirectory = path.join(os.projectdir(), "bin")
+
+        os.cp(path.join(os.projectdir(), "assets", "data"), path.join(path.join(binDirectory, target:name()), "data"))
+    end)
