@@ -97,17 +97,24 @@ bool MainManager::removeStructure(const std::string& name) {
         return false;
     }
 
-    StructureManager::removeStructure(name);
+    std::string nbt = StructureManager::removeStructure(name);
+    if (nbt.empty()) {
+        return false;
+    }
 
     std::filesystem::path path = Main::getInstance().getSelf().getDataDir() / "structures" / (name + ".mcstructure");
+
+    std::filesystem::path newPath  = path;
+    newPath                       += ".bak";
+
     if (FileManager::isFileExists(path)) {
         if (ConfigManager::getConfig().backupRemovedStructure) {
-            std::filesystem::path newPath  = path;
-            newPath                       += ".bak";
             FileManager::renameFile(path, newPath);
         } else {
             FileManager::removeFile(path);
         }
+    } else if (ConfigManager::getConfig().backupRemovedStructure) {
+        FileManager::writeFile(newPath, nbt, true);
     }
 
     CommandManager::removeStructureNameFromSoftEnum(name);

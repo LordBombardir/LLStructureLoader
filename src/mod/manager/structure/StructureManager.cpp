@@ -55,16 +55,25 @@ void StructureManager::loadStructure(const std::string& name, const CompoundTag&
         .saveData(std::format("structuretemplate_{0}:{1}", STRUCTURE_ID, name), nbt, DBHelpers::Category::WorldFeature);
 }
 
-void StructureManager::removeStructure(const std::string& name) {
+std::string StructureManager::removeStructure(const std::string& name) {
     optional_ref<Level> level = ll::service::getLevel();
     if (!level) {
-        return;
+        return {};
     }
+
+    // clang-format off
+    std::string nbt = level->getLevelStorage().getCompoundTag(
+        std::format("structuretemplate_{0}:{1}", STRUCTURE_ID, name),
+        DBHelpers::Category::WorldFeature
+    )->toBinaryNbt();
+    // clang-format on
 
     level->getLevelStorage().deleteData(
         std::format("structuretemplate_{0}:{1}", STRUCTURE_ID, name),
         DBHelpers::Category::WorldFeature
     );
+
+    return nbt;
 }
 
 } // namespace structure_loader::manager

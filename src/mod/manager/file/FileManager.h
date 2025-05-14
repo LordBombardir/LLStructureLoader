@@ -19,6 +19,7 @@ public:
     static bool isFileExists(const std::filesystem::path& path);
     static void renameFile(const std::filesystem::path& path, const std::filesystem::path& newPath);
     static void removeFile(const std::filesystem::path& path);
+    static void writeFile(const std::filesystem::path& path, const std::string& data, bool isBinary);
 
 private:
     static void directoryEnsure(const std::filesystem::path& path);

@@ -6,7 +6,7 @@ namespace structure_loader::manager {
 std::vector<std::filesystem::path>
 FileManager::getFilesInDirectory(const std::filesystem::path& path, const std::optional<std::string>& checkExtension) {
     directoryEnsure(path);
-    
+
     std::vector<std::filesystem::path> files;
     for (const std::filesystem::directory_entry& entry : std::filesystem::directory_iterator(path)) {
         if (entry.is_regular_file()) {
@@ -47,6 +47,14 @@ void FileManager::removeFile(const std::filesystem::path& path) {
     }
 
     std::filesystem::remove(path);
+}
+
+void FileManager::writeFile(const std::filesystem::path& path, const std::string& data, bool isBinary) {
+    if (std::filesystem::exists(path)) {
+        throw std::runtime_error("The file already exists: " + path.generic_string());
+    }
+
+    ll::file_utils::writeFile(path, data, isBinary);
 }
 
 void FileManager::directoryEnsure(const std::filesystem::path& path) {

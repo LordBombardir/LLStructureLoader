@@ -1,6 +1,7 @@
 #include "CommandManager.h"
 #include "../../commands/LoadStructureCommand.h"
 #include "../../commands/RemoveStructureCommand.h"
+#include "../structure/StructureManager.h"
 #include <ll/api/command/CommandHandle.h>
 #include <ll/api/command/CommandRegistrar.h>
 #include <ll/api/service/Bedrock.h>
@@ -13,7 +14,10 @@ bool CommandManager::registerCommands() {
         return false;
     }
 
-    ll::command::CommandRegistrar::getInstance().tryRegisterSoftEnum(std::string{structureEnumNames}, {});
+    ll::command::CommandRegistrar::getInstance().tryRegisterSoftEnum(
+        std::string{structureEnumNames},
+        StructureManager::getLoadedStructures()
+    );
 
     ll::command::CommandHandle& loadStructureCommand = ll::command::CommandRegistrar::getInstance().getOrCreateCommand(
         commands::LoadStructureCommand::getName(),
