@@ -1,7 +1,8 @@
 #include "LanguageManager.h"
-#include "../../Utils.hpp"
-#include <LLTranslatorApi.h>
+#include "../../commands/LoadStructureCommand.h"
+#include "../../commands/RemoveStructureCommand.h"
 #include <memory>
+#include <translator_api/Api.h>
 
 namespace structure_loader::manager {
 
@@ -17,13 +18,13 @@ std::string LanguageManager::getTranslate(const std::string_view& key, const std
 }
 
 void LanguageManager::addTranslations() {
-    ::setTranslationForCommandDescription(
-        "load-structure",
+    translator::api::setTranslationForCommandDescription(
+        commands::LoadStructureCommand::getName(),
         manager::LanguageManager::getTranslate("commandLoadStructureDescription", "ru_RU"),
         "ru_RU"
     );
-    ::setTranslationForCommandDescription(
-        "remove-structure",
+    translator::api::setTranslationForCommandDescription(
+        commands::RemoveStructureCommand::getName(),
         manager::LanguageManager::getTranslate("commandRemoveStructureDescription", "ru_RU"),
         "ru_RU"
     );

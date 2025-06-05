@@ -32,7 +32,6 @@ public:
             throw std::invalid_argument("Vectors «whatNeedToReplace» and «whatForReplace» must have the same size!");
         }
 
-        // Заменяем каждую подстроку
         for (size_t i = 0; i < whatNeedToReplace.size(); ++i) {
             const std::string& searchFor   = whatNeedToReplace[i];
             const std::string& replaceWith = whatForReplace[i];
