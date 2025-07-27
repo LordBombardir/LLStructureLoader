@@ -1,6 +1,6 @@
 #include "MainManager.h"
 #include "../Main.h"
-#include "../Utils.hpp"
+#include "../utils/Utils.h"
 #include "command/CommandManager.h"
 #include "config/ConfigManager.h"
 #include "file/FileManager.h"
@@ -28,7 +28,7 @@ void MainManager::loadStructures(ll::mod::NativeMod& mod) {
     for (const std::filesystem::path& path : files) {
         if (StructureManager::isStructureLoaded(path.stem().string())) {
             if (ConfigManager::getConfig().logToConsoleIfStructureIsAlreadyLoaded) {
-                mod.getLogger().warn(Utils::strReplace(
+                mod.getLogger().warn(utils::strReplace(
                     LanguageManager::getTranslate("structureAlreadyLoaded"),
                     "{structureName}",
                     path.stem().string()
@@ -45,7 +45,7 @@ void MainManager::loadStructures(ll::mod::NativeMod& mod) {
 
         ll::Expected<CompoundTag> nbt = CompoundTag::fromBinaryNbt(content);
         if (!nbt) {
-            mod.getLogger().warn(Utils::strReplace(
+            mod.getLogger().warn(utils::strReplace(
                 LanguageManager::getTranslate("badStructure"),
                 {"{structureName}", "{errorMessage}"},
                 {path.stem().string(), nbt.error().message()}

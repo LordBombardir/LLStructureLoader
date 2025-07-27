@@ -18,12 +18,12 @@ std::string LanguageManager::getTranslate(const std::string_view& key, const std
 }
 
 void LanguageManager::addTranslations() {
-    translator::api::setTranslationForCommandDescription(
+    translator::api::setPlaceholder(
         commands::LoadStructureCommand::getName(),
         manager::LanguageManager::getTranslate("commandLoadStructureDescription", "ru_RU"),
         "ru_RU"
     );
-    translator::api::setTranslationForCommandDescription(
+    translator::api::setPlaceholder(
         commands::RemoveStructureCommand::getName(),
         manager::LanguageManager::getTranslate("commandRemoveStructureDescription", "ru_RU"),
         "ru_RU"

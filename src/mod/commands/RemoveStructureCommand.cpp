@@ -1,5 +1,5 @@
 #include "RemoveStructureCommand.h"
-#include "../Utils.hpp"
+#include "../utils/Utils.h"
 #include "../manager/MainManager.h"
 #include <mc/server/ServerPlayer.h>
 
@@ -21,7 +21,7 @@ void RemoveStructureCommand::execute(
     }
 
     if (!manager::MainManager::removeStructure(parameter.structureName)) {
-        output.error(Utils::strReplace(
+        output.error(utils::strReplace(
             manager::LanguageManager::getTranslate("removeStructureError", localeCode),
             "{structureName}",
             parameter.structureName
@@ -29,7 +29,7 @@ void RemoveStructureCommand::execute(
         return;
     }
 
-    output.success(Utils::strReplace(
+    output.success(utils::strReplace(
         manager::LanguageManager::getTranslate("removeStructureSuccess", localeCode),
         "{structureName}",
         parameter.structureName

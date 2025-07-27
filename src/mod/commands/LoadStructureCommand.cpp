@@ -1,5 +1,5 @@
 #include "LoadStructureCommand.h"
-#include "../Utils.hpp"
+#include "../utils/Utils.h"
 #include "../manager/MainManager.h"
 #include <mc/server/ServerPlayer.h>
 
@@ -21,7 +21,7 @@ void LoadStructureCommand::execute(
     }
 
     if (!manager::MainManager::loadStructure(parameter.structureName)) {
-        output.error(Utils::strReplace(
+        output.error(utils::strReplace(
             manager::LanguageManager::getTranslate("loadStructureError", localeCode),
             "{structureName}",
             parameter.structureName
@@ -29,7 +29,7 @@ void LoadStructureCommand::execute(
         return;
     }
 
-    output.success(Utils::strReplace(
+    output.success(utils::strReplace(
         manager::LanguageManager::getTranslate("loadStructureSuccess", localeCode),
         "{structureName}",
         parameter.structureName
